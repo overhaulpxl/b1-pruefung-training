@@ -87,42 +87,6 @@ Pada **versi 1.0**, aplikasi berfokus pada bagian **Lesen (Membaca)**.
 
 ---
 
-## 📦 Menambah Paket Soal Sendiri
-
-Buat file Python baru dengan nama diawali `paket_` dan letakkan di **folder yang sama dengan file `.exe`**:
-
-```
-📁 Folder .exe
-├── B1-Pruefung-Simulation.exe
-├── paket_latihan2.py       ← paket tambahan
-└── paket_try_out.py        ← paket tambahan lainnya
-```
-
-Format isi file paket soal:
-
-```python
-# paket_latihan2.py
-kuis_b1_lesen = [
-    {
-        "id": "p2_q1",
-        "teil": 1,
-        "tipe": "Teil 1 – Richtig/Falsch",
-        "tipe_soal": "richtig_falsch_2",
-        "teks": "Teks bacaan di sini...",
-        "pertanyaan": "Pernyataan yang dinilai benar atau salah.",
-        "pilihan": {"richtig": "Richtig", "falsch": "Falsch"},
-        "jawaban_benar": "richtig",
-        "pembahasan": "Penjelasan mengapa jawabannya benar.",
-        "highlight": "Kalimat dari teks yang mendukung jawaban.",
-    },
-    # Tambahkan soal lainnya di sini...
-]
-```
-
-Aplikasi akan otomatis mendeteksi dan menampilkan paket tersebut di menu **Pilih Paket Soal**.
-
----
-
 ## 🗺️ Roadmap
 
 - [x] **v1.0** — Modul Lesen lengkap
