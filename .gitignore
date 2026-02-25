@@ -1,0 +1,26 @@
+# Build output
+build/
+dist/
+
+# PyInstaller spec files
+*.spec
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Executable (didistribusikan via GitHub Releases, bukan disimpan di repo)
+*.exe
+
+# IDE / OS
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
