@@ -1,5 +1,0 @@
-Letakkan screenshot aplikasi di sini.
-
-File yang dibutuhkan oleh README.md:
-- lesen_1.png  → Tampilan soal Lesen
-- lesen_2.png  → Tampilan rekap akhir
