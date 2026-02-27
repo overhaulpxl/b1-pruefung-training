@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>B1 Prüfung Training</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&family=Georgia&family=Consolas:wght@700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="style.css?v=3" />
+  </head>
+  <body>
+    <div class="app-container">
+    
+      <!-- FLOATING SLIDE NAVIGATION (Right/Left Screen Edges) -->
+      <button class="floating-nav fn-prev" id="btnPrevFloat" aria-label="Zurück">◄</button>
+      <button class="floating-nav fn-next" id="btnNextFloat" aria-label="Weiter">►</button>
+
+      <!-- TOP HEADER (RESTORED TO CLEAN OLD LOOK) -->
+      <header class="top-header">
+        <div class="brand">
+          <div class="german-flag">
+            <div class="flag-black"></div>
+            <div class="flag-red"></div>
+            <div class="flag-gold"></div>
+          </div>
+          <h1>B1 Prüfung</h1>
+          <span class="credit">· coded by Zaidaan</span>
+        </div>
+
+        <!-- CENTER: TIMER -->
+        <div class="header-center">
+          <div class="timer-wrapper">
+            <span class="timer-label">verbleibende Zeit | </span>
+            <span class="timer" id="timerDisplay">65 Minuten</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="btn-home" onclick="if(confirm('Möchten Sie zum Portal zurückkehren?')) { localStorage.removeItem('b1_active_session'); localStorage.removeItem('b1_active_module'); location.reload(); }" title="Zurück zum Portal">🏠 Portal</button>
+          <div class="paket-selector" id="paketSelector" tabindex="0">
+            📂 <span id="paketName">Paket 1</span>
+            <div class="paket-dropdown" id="paketDropdown"></div>
+          </div>
+          <div class="zoom-controls">
+            <div class="control-group">
+              <button class="btn-top-icon dummy" aria-label="Ansicht">👁</button>
+            </div>
+            <div class="control-group">
+              <button class="btn-top-icon action minus" id="btnZoomOut">−</button>
+              <button class="btn-top-icon action label">A</button>
+              <button class="btn-top-icon action plus" id="btnZoomIn">+</button>
+            </div>
+            <div class="control-group">
+              <button class="btn-top-icon dummy">−</button>
+              <button class="btn-top-icon dummy" aria-label="Lautstärke">🔊</button>
+              <button class="btn-top-icon dummy">+</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PORTAL BODY (Landing Page) -->
+      <main class="portal-body" id="portalBody">
+        <div class="portal-content">
+          <div class="portal-header-info" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px; font-family: var(--font-ui); color: var(--text-dark); font-size: 14px;">
+            <img src="https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg" alt="German Flag" style="width: 20px; height: 12px; border: 1px solid #ccc; border-radius: 2px;">
+            <span>B1 Prüfung Training coded by Zaidaan</span>
+          </div>
+          <h2 class="portal-title">Wählen Sie ein Modul</h2>
+          <div class="portal-settings">
+            <span style="font-size: 14px; font-weight:600; margin-right: 10px;">Aufgabenset:</span>
+            <select id="portalPaketSelect" class="portal-select"></select>
+          </div>
+          <div class="portal-cards">
+            <div class="portal-card" onclick="startModule('lesen')">
+              <div class="pc-icon">📖</div>
+              <h3>Lesen</h3>
+              <p>Leseverstehen (65 Min)</p>
+            </div>
+            <div class="portal-card" onclick="startModule('schreiben')">
+              <div class="pc-icon">✍️</div>
+              <h3>Schreiben</h3>
+              <p>Schriftlicher Ausdruck (60 Min)</p>
+            </div>
+            <div class="portal-card disabled" title="Kommt bald...">
+              <div class="pc-icon">🎧</div>
+              <h3>Hören</h3>
+              <p>Hörverstehen (Bald verfügbar)</p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- MAIN BODY -->
+      <main class="main-body" id="mainBody" style="display:none">
+        
+        <!-- LEFT PANEL -->
+        <div class="left-panel" id="leftPanel">
+          <!-- The gray header block from Goethe UI -->
+          <div class="goethe-header-left">
+             <div class="section-title" id="sectTitleLabel">Lesen 1</div>
+             <div class="instruction" id="instructLabel">Lesen Sie den Text...</div>
+          </div>
+          
+          <div class="text-wrapper">
+            <div class="reading-text" id="readingText"></div>
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="right-panel" id="rightPanel">
+          <div class="goethe-header-right">
+             <span></span>
+             <div class="answered-status" id="answeredLabel">Arbeitszeit: 10 Minuten &nbsp;&nbsp;&nbsp; 1 | 6</div>
+          </div>
+          <div class="questions-container" id="questionsContainer"></div>
+        </div>
+      </main>
+
+      <!-- RECAP VIEW -->
+      <main class="recap-body" id="recapBody" style="display:none">
+        <div class="recap-wrapper">
+          <div class="recap-text" id="recapText"></div>
+        </div>
+      </main>
+
+      <!-- BOTTOM BAR (Clean with Left Tray Toggle) -->
+      <footer class="bottom-bar">
+        
+        <!-- Left: Tray Toggle -->
+        <div class="nav-left">
+           <div class="dots-wrapper">
+               <button class="btn-dots-toggle" id="btnDotsToggle">
+                  <div class="tray-icon"></div>
+               </button>
+               
+               <!-- GOETHE TRAY OVERLAY -->
+               <div class="goethe-tray" id="goetheTray" style="display: none;">
+                 <button class="tray-btn tray-prev" id="trayPrev">◄</button>
+                 <div class="tray-cards-wrapper" id="trayCards">
+                   <!-- Cards generated by JS -->
+                 </div>
+                 <button class="tray-btn tray-next" id="trayNext">►</button>
+               </div>
+               
+           </div>
+        </div>
+
+        <!-- Right: Actions -->
+        <div class="nav-right">
+           <button class="btn btn-restart" id="btnRestart" style="display:none">🔄 Ulangi</button>
+        </div>
+      </footer>
+
+    </div>
+
+    <!-- GLOBAL LAYOUT CONTROLS (Bottom Right) -->
+    <div class="layout-controls" id="layoutControls" style="display: none;">
+      <button class="layout-btn" data-layout="left-heavy" aria-label="Text größer" title="Text größer"></button>
+      <button class="layout-btn active" data-layout="balanced" aria-label="Gleichmäßig" title="Gleichmäßig"></button>
+      <button class="layout-btn" data-layout="right-heavy" aria-label="Aufgaben größer" title="Aufgaben größer"></button>
+    </div>
+
+    <!-- HIGHLIGHT POPUP -->
+    <div class="highlight-popup" id="highlightPopup">
+      <textarea id="highlightComment" placeholder="Komentar..."></textarea>
+      <div class="hk-btns">
+        <button class="hk-btn hk-cancel" id="hkCancelBtn">Abbrechen</button>
+        <button class="hk-btn hk-save" id="hkSaveBtn">Speichern</button>
+      </div>
+    </div>
+
+    <!-- CONFIRM APP -->
+    <div class="modal-overlay" id="confirmModal">
+      <div class="modal-content">
+        <h3 class="modal-title" id="modalTitle">Selesai?</h3>
+        <p class="modal-text" id="modalText">Masih ada soal belum dijawab. Selesaikan dan tampilkan rekap?</p>
+        <div class="modal-buttons">
+          <button class="btn btn-cancel" id="modalBtnCancel">Batal</button>
+          <button class="btn btn-confirm" id="modalBtnConfirm">Ya, Selesai</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
